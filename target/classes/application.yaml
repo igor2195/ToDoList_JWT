@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: 'jdbc:postgresql://localhost:5432/todolist'
+    username: 'root'
+    password: 'root'
+  jpa:
+    hibernate:
+      ddl-auto: update
+  liquibase:
+    change-log: 'classpath:liquibase/db.changelog-master.xml'
+  main:
+    allow-circular-references: true
+jwt:
+  token:
+    secret: jwtapptask
+    expired: 3600000
