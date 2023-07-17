@@ -2,7 +2,6 @@ package main.controller;
 
 import lombok.RequiredArgsConstructor;
 import main.entity.Task;
-import main.repository.TaskRepository;
 import main.service.TaskService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,6 +13,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping(value = "/tasks")
 public class ToDoListController {
     private final TaskService taskService;
 
@@ -21,17 +21,17 @@ public class ToDoListController {
      * @param task - обеъект таски
      * @return возвращает созданную таску
      */
-    @PostMapping(value = "/tasks", consumes = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> addTask(@RequestBody Task task) {
         return new ResponseEntity<>(taskService.createTask(task), HttpStatus.CREATED);
     }
 
     /**
-     * @param id - искомой таски
+     * @param id - запрашиваемой таски
      * @return возвращает объект таски
      * @throws Exception в случае если не нашли таску по id вернется ошибка
      */
-    @GetMapping("/tasks/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getTasks(@PathVariable int id) throws Exception {
         return new ResponseEntity<>(taskService.getTask(id), HttpStatus.OK);
     }
@@ -39,7 +39,7 @@ public class ToDoListController {
     /**
      * @return Возвращает список тасок
      */
-    @GetMapping("/tasks")
+    @GetMapping()
     public ResponseEntity<List<Task>> getTasks() {
         return new ResponseEntity<>(taskService.getTasks(), HttpStatus.OK);
     }
@@ -49,7 +49,7 @@ public class ToDoListController {
      * @param fields - изменяеме поля
      * @return измененную таску
      */
-    @PatchMapping("/tasks/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<?> updateTask(@PathVariable int id, @RequestBody Map<String, Object> fields) {
         return new ResponseEntity<>(taskService.updateTask(id, fields), HttpStatus.OK);
     }
@@ -57,8 +57,8 @@ public class ToDoListController {
     /**
      * @param id - удаляемой таски
      */
-    @DeleteMapping("/tasks/{id}")
-    public void delTask(@PathVariable int id) {
+    @DeleteMapping("/{id}")
+    public void delTask(@PathVariable int id) throws Exception {
         taskService.delTask(id);
     }
 }

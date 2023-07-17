@@ -19,6 +19,7 @@ public class SecurityConfig {
     private static final String LOGIN_ENDPOINT = "/login";
     private static final String REGISTRATION_ENDPOINT = "/registration";
     private static final String ADMIN_ENDPOINT = "/tasks/{id}";
+    private static final String ROLE_ADMIN = "ADMIN";
 
     @Autowired
     public SecurityConfig(JwtTokenProvider jwtTokenProvider) {
@@ -40,7 +41,7 @@ public class SecurityConfig {
                 .cors().disable()
                 .authorizeHttpRequests()
                 .requestMatchers(LOGIN_ENDPOINT, REGISTRATION_ENDPOINT).permitAll()
-                .requestMatchers(ADMIN_ENDPOINT).hasRole("ADMIN")
+                .requestMatchers(ADMIN_ENDPOINT).hasRole(ROLE_ADMIN)
                 .anyRequest().permitAll()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

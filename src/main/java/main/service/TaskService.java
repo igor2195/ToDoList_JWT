@@ -56,7 +56,10 @@ public class TaskService {
         return taskRepository.save(task);
     }
 
-    public void delTask(int id) {
-        taskRepository.deleteById(id);
+    public void delTask(int id) throws Exception {
+        Optional<Task> optionalTask = taskRepository.findById(id);
+        if (optionalTask.isEmpty()) {
+            throw new Exception("Task with id: " + id + " not found");
+        } else taskRepository.deleteById(id);
     }
 }
