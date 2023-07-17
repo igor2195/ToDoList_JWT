@@ -39,7 +39,7 @@ public class ToDoListController {
     /**
      * @return Возвращает список тасок
      */
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<List<Task>> getTasks() {
         return new ResponseEntity<>(taskService.getTasks(), HttpStatus.OK);
     }
